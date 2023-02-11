@@ -2,7 +2,6 @@ from collections import UserDict
 
 
 class Database(UserDict):
-
     def __init__(self, root=None):
         """root is not meant to be used by the user"""
         if root is None:
