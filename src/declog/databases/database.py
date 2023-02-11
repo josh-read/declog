@@ -16,21 +16,6 @@ class Database(UserDict):
         return self[key]
 
 
-def test_database_default_keys():
-    db = Database()
-    my_dict = {
-        'a': 'b',
-        'c': 'd',
-    }
-
-    entry = db
-    for k in my_dict.keys():
-        value = my_dict[k]
-        entry = entry[value]
-
-    print(db)
-
-
 def test_with_logger():
     from declog.loggers.logger import Logger, log
 
