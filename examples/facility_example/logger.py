@@ -3,6 +3,7 @@ from enum import Enum
 from getpass import getuser
 
 from declog import Logger, log
+from declog.databases.std_out_database import StdOutDatabase
 
 
 class FacilityMachines(Enum):
@@ -13,43 +14,17 @@ class FacilityMachines(Enum):
 
 class FacilityLogger(Logger):
 
-    def __init__(self, func):
-        func.logger = self  # normally unnescessary, but this allows us to open up the logger after all the logging is done to look inside
-        self.saved_variables = {}
-        self.machine = None
-        self.record = None
-        super().__init__(func)
+    db = StdOutDatabase()
+    unique_keys = 'machine shot_number function_name datetime'.split()
 
-    def __call__(self, *args, **kwargs):
-        result = self._func(*args, *kwargs)
-        # generate record
-        general = {
-            'function_name': self._func.__name__,
-            'datetime': str(datetime.now()),
-            'version': self.get_code_version(),
-            'user': getuser(),
-        }
-
-        function_arguments = self.build_arg_dict(args, kwargs)
-        self.record = [{'general': general,
-                        'vcs': self.get_code_version(),
-                        'function_arguments': function_arguments,
-                        'saved_variables': self.saved_variables,
-                        'result': str(result)}]
-
-        # verify the machine
-        if self.machine is None:
-            try:
-                self.machine = function_arguments['machine']
-            except KeyError as e:
-                msg = f"The key 'machine' is required to identify the correct database file and was not found in the " \
-                      f"signature of the function '{self._func.__name__}'. Either add this as a function argument, " \
-                      f"or initialise the logger with the correct machine e.g. '@FLPLogger(FacilityMachines.M3)'. "
-                raise KeyError(msg) from e
-        return result
-
-    def log(self, key, value):
-        self.saved_variables[key] = value
+    def build_env_dict(self):
+        env_dict = super(FacilityLogger, self).build_env_dict()
+        try:
+            machine = self.machine
+        except AttributeError:
+            return env_dict
+        else:
+            return env_dict | {'machine': machine}
 
     @classmethod
     def with_machine(cls, machine: FacilityMachines):
@@ -63,17 +38,9 @@ class FacilityLogger(Logger):
 
         return inner
 
-    def recall_most_recent(self, func, *args, **kwargs):
-        """Returns dictionary of the most recently called arguments for func.
-        This is useful just for inspection but also full dictionary can be passed to """
-        raise NotImplementedError
-
-    def rerun_most_recent(self, func, *args, **kwargs):
-        raise NotImplementedError
-
     @staticmethod
     def get_code_version():
-        """This facility uses a monorepo for all their """
+        """Dummy version for this test"""
         return "1.2.6"
 
 
@@ -89,7 +56,7 @@ if __name__ == '__main__':
         return a * 2
 
     my_processing_function(21, FacilityMachines.M3, bar=True)
-    print(my_processing_function.logger.record)
+    print(my_processing_function.db)
 
     @FacilityLogger.with_machine(FacilityMachines.M3)
     def my_processing_function_specifically_for_m3(shot_number, foo=False, bar=False):
@@ -97,4 +64,4 @@ if __name__ == '__main__':
 
     my_processing_function_specifically_for_m3(42, foo=True)
 
-    print(my_processing_function_specifically_for_m3.logger.record)
+    print(my_processing_function_specifically_for_m3.db)
