@@ -12,7 +12,7 @@ class Database(UserDict):
         super().__init__()
 
     def __missing__(self, key):
-        self[key] = self.__class__(root=self.root)
+        self[key] = Database(root=self.root)
         return self[key]
 
 
