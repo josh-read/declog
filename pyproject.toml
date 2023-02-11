@@ -33,3 +33,8 @@ Source = "https://github.com/josh-read/declog"
 
 [dirs.env]
 virtual = ".venv"
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+]
