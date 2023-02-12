@@ -1,4 +1,6 @@
-# **Dec**orator **Log**ger
+# DecLog
+
+**Dec**orator **Log**ger. A minimal boilerplate logger for functions.
 
 ## The problem
 
@@ -7,7 +9,6 @@
 - Sometimes we write code to execute a routine, more like a
   script. This library aims to be a convenient logger for these
   functions with minimal boilerplate.
-
 - We often repeat the same analysis routine for many datasets.
 - Often we require not only the final output of the routine, but wish to
   log intermediate values.
