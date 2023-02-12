@@ -38,4 +38,6 @@ virtual = ".venv"
 dev = [
   "pytest",
   "pre-commit",
+  "black",
+  "flake8",
 ]
