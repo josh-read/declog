@@ -1,7 +1,8 @@
 from enum import Enum
+from pprint import pprint
 
-from declog import Logger, log
-from declog.databases.std_out_database import StdOutDatabase
+from declog.loggers.logger import Logger, log
+from declog.databases.database import Database
 
 
 class FacilityMachines(Enum):
@@ -13,7 +14,7 @@ class FacilityMachines(Enum):
 
 
 class FacilityLogger(Logger):
-    db = StdOutDatabase()
+    db = Database()
     unique_keys = "machine shot_number function_name datetime".split()
 
     def build_env_dict(self):
@@ -56,7 +57,7 @@ if __name__ == "__main__":
         return a * 2
 
     my_processing_function(21, FacilityMachines.M3, bar=True)
-    print(my_processing_function.db)
+    pprint(my_processing_function.db)
 
     @FacilityLogger.with_machine(FacilityMachines.M3)
     def my_processing_function_specifically_for_m3(shot_number, foo=False, bar=False):
@@ -64,4 +65,4 @@ if __name__ == "__main__":
 
     my_processing_function_specifically_for_m3(42, foo=True)
 
-    print(my_processing_function_specifically_for_m3.db)
+    pprint(my_processing_function_specifically_for_m3.db)
