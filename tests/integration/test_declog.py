@@ -6,17 +6,16 @@ import tempfile
 import pytest
 
 
-@pytest.mark.parametrize('database', [Database(), StdOutDatabase()])
+@pytest.mark.parametrize("database", [Database(), StdOutDatabase()])
 def test_logger_with_database(database):
-
     class MyLogger(Logger):
         db = database
-        unique_keys = 'function_name datetime'.split()
+        unique_keys = "function_name datetime".split()
 
     @MyLogger
     def my_function(a, b, c=3, d=-2):
         ab = a * b
-        log('ab', ab)
+        log("ab", ab)
         cd = c / d
         log(cd)
         return ab + cd
@@ -28,14 +27,15 @@ def test_logger_with_pickle_database():
     temp_file = tempfile.mktemp()
 
     with PickleDatabase(temp_file) as pdb:
+
         class MyLogger(Logger):
             db = pdb
-            unique_keys = 'function_name datetime'.split()
+            unique_keys = "function_name datetime".split()
 
         @MyLogger
         def my_function(a, b, c=3, d=-2):
             ab = a * b
-            log('ab', ab)
+            log("ab", ab)
             cd = c / d
             log(cd)
             return ab + cd

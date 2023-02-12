@@ -1,21 +1,20 @@
-from datetime import datetime
 from enum import Enum
-from getpass import getuser
 
 from declog import Logger, log
 from declog.databases.std_out_database import StdOutDatabase
 
 
 class FacilityMachines(Enum):
-    """Used to generate filepath of metadata directories. Machine number corresponds to folder number in /data"""
+    """Used to generate filepath of metadata directories. Machine number corresponds to
+    folder number in /data"""
+
     M2 = 2
     M3 = 3
 
 
 class FacilityLogger(Logger):
-
     db = StdOutDatabase()
-    unique_keys = 'machine shot_number function_name datetime'.split()
+    unique_keys = "machine shot_number function_name datetime".split()
 
     def build_env_dict(self):
         env_dict = super(FacilityLogger, self).build_env_dict()
@@ -24,7 +23,7 @@ class FacilityLogger(Logger):
         except AttributeError:
             return env_dict
         else:
-            return env_dict | {'machine': machine}
+            return env_dict | {"machine": machine}
 
     @classmethod
     def with_machine(cls, machine: FacilityMachines):
@@ -44,15 +43,16 @@ class FacilityLogger(Logger):
         return "1.2.6"
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+
     @FacilityLogger
     def my_processing_function(shot_number, machine, foo=False, bar=False):
-        log(key='top_level_function', value='intermediate_value_1')
+        log(key="top_level_function", value="intermediate_value_1")
         double_shot_number = nested_function(shot_number)
         return double_shot_number
 
     def nested_function(a):
-        log(key='nested_function', value='intermediate_value_1')
+        log(key="nested_function", value="intermediate_value_1")
         return a * 2
 
     my_processing_function(21, FacilityMachines.M3, bar=True)
