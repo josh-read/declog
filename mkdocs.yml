@@ -1,1 +1,7 @@
 site_name: DecLog
+
+nav:
+    - Home: 'README.md'
+    - About: 'about.md'
+    - Tutorial: 'tutorial.md'
+    - Reference: 'reference.md'
