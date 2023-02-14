@@ -2,6 +2,10 @@
 
 **Dec**orator **Log**ger. A minimal boilerplate logger for functions.
 
+- [**Documentation**](https://josh-read.github.io/declog/)
+- [**Source Code**](https://github.com/josh-read/declog)
+- [**Bug Reports / Feature Requests**](https://github.com/josh-read/declog/issues)
+
 ## Getting Started
 
 If you wish to use this library, simply use pip to install the
