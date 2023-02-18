@@ -1,4 +1,8 @@
 site_name: DecLog
+site_description: "A minimal boilerplate logger for functions."
+site_url: "https://josh-read.github.io/declog/"
+repo_url: "https://github.com/josh-read/declog"
+repo_name: "josh-read/declog"
 
 theme:
   name: "material"
