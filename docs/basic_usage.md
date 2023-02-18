@@ -1,21 +1,4 @@
-# DecLog
-
-**Dec**orator **Log**ger. A minimal boilerplate logger for functions.
-
-- [**Documentation**](https://josh-read.github.io/declog/)
-- [**Source Code**](https://github.com/josh-read/declog)
-- [**Bug Reports / Feature Requests**](https://github.com/josh-read/declog/issues)
-
-## Getting Started
-
-If you wish to use this library, simply use pip to install the
-latest version from PyPI.
-
-```commandline
-$ pip install declog
-```
-
-## Usage
+# Basic Usage
 
 Analysis code is typically run through a main processing function, 
 which draws together library code to produce a meaningful result.
@@ -56,8 +39,3 @@ For use as a proper logger, the database must be saved to memory. View the
 
 For more information on usage, check out the [about](about.md) page or
 [tutorials](tutorial.md) in the docs.
-
-## Contributing
-
-All contributions are welcome! Please raise an issue or make a pull request.
-

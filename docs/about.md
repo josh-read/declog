@@ -1,3 +1,7 @@
+# What is DecLog?
+
+**Dec**orator **Log**ger. A minimal boilerplate logger for functions.
+
 ## The problem
 
 - Existing logging libraries are geared towards logging for

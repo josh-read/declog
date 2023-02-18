@@ -1,7 +1,7 @@
-# whole page on facility example
+# Tutorial
 
-## set unique keys
+Tutorial based on code in `examples/facility_example`.
 
-## set automatic filling keys
+## Setting custom unique keys
 
-## specialised database
+## Using a custom database

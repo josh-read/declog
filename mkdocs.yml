@@ -1,7 +1,18 @@
 site_name: DecLog
 
+theme:
+  name: "material"
+
+plugins:
+  - mkdocstrings
+
 nav:
-    - Home: 'README.md'
-    - About: 'about.md'
+  - Home:
+    - Overview: README.md
+    - About: about.md
+  - User Guide:
+    - Installation: 'install.md'
+    - Basic Usage: 'basic_usage.md'
     - Tutorial: 'tutorial.md'
-    - Reference: 'reference.md'
+  - API Reference: 'reference.md'
+  - Developer Guide: 'dev_guide.md'
