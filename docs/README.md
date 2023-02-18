@@ -1,5 +1,7 @@
 # DecLog
 
+[![Python package](https://github.com/josh-read/declog/actions/workflows/python-package.yml/badge.svg)](https://github.com/josh-read/declog/actions/workflows/python-package.yml)
+
 **Dec**orator **Log**ger. A minimal boilerplate logger for functions.
 
 - [**Documentation**](https://josh-read.github.io/declog/)
