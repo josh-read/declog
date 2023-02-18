@@ -1,10 +1,23 @@
-# DecLog
+<h1 align="center">DecLog</h1>
 
-**Dec**orator **Log**ger. A minimal boilerplate logger for functions.
+<p align="center">A minimal boilerplate logger for functions.</p>
 
-- [**Documentation**](https://josh-read.github.io/declog/)
-- [**Source Code**](https://github.com/josh-read/declog)
-- [**Bug Reports / Feature Requests**](https://github.com/josh-read/declog/issues)
+<p align="center">
+  <a href="https://github.com/josh-read/declog/actions/workflows/python-package.yml"><img
+    src="https://img.shields.io/github/actions/workflow/status/josh-read/declog/python-package.yml?label=ci"
+    alt="ci"
+  /></a>
+  <a href="https://josh-read.github.io/declog/"><img
+    src="https://img.shields.io/badge/docs-mkdocs-blue" 
+    alt="docs"
+  /></a>
+  <a href="https://pypi.org/project/declog/"><img
+    src="https://img.shields.io/pypi/v/declog" 
+    alt="pypi"
+  /></a>
+</p>
+
+---
 
 ## Getting Started
 
