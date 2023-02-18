@@ -19,9 +19,9 @@
 
 ---
 
-## Getting Started
+## Installation
 
-If you wish to use this library, simply use pip to install the
+To install this library, simply use `pip` to install the
 latest version from PyPI.
 
 ```commandline
