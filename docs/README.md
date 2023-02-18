@@ -1,6 +1,7 @@
 # DecLog
 
 [![CI](https://img.shields.io/github/actions/workflow/status/josh-read/declog/python-package.yml?label=ci)](https://github.com/josh-read/declog/actions/workflows/python-package.yml)
+[![docs](https://img.shields.io/badge/docs-mkdocs-blue)](https://josh-read.github.io/declog/)
 [![PyPI](https://img.shields.io/pypi/v/declog)](https://pypi.org/project/declog/)
 
 **Dec**orator **Log**ger. A minimal boilerplate logger for functions.
