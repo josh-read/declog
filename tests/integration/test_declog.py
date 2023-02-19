@@ -1,6 +1,6 @@
-from declog.databases.database import Database
-from declog.databases.pickle_database import PickleDatabase
-from declog.databases.std_out_database import StdOutDatabase
+from declog.database.database import Database
+from declog.database.pickle_database import PickleDatabase
+from declog.database.std_out_database import StdOutDatabase
 from declog.loggers.logger import Logger, log
 import tempfile
 import pytest

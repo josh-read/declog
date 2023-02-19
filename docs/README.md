@@ -39,14 +39,14 @@ with `log` and the return value.
 
 ```python
 from declog.loggers.logger import Logger, log
-from declog.databases.database import Database
+from declog.database.database import Database
 
 
 class MyLogger(Logger):
     db = Database()
     unique_keys = ['function_name', 'datetime']
 
-    
+
 @MyLogger
 def my_processing_function(a, b, c=2, d=3.14):
     ab = a * b
@@ -54,6 +54,7 @@ def my_processing_function(a, b, c=2, d=3.14):
     cd = c - d
     log(cd)
     return ab + cd
+
 
 if __name__ == '__main__':
     my_processing_function(1, 5)
