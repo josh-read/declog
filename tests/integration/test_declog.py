@@ -1,9 +1,9 @@
-from declog.databases.database import Database
-from declog.databases.pickle_database import PickleDatabase
-from declog.databases.std_out_database import StdOutDatabase
-from declog.loggers.logger import Logger, log
 import tempfile
+
 import pytest
+
+from declog import Logger, log
+from declog.database import Database, PickleDatabase, StdOutDatabase
 
 
 @pytest.mark.parametrize("database", [Database(), StdOutDatabase()])

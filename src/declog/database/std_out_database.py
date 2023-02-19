@@ -1,4 +1,4 @@
-from declog.databases.database import Database
+from declog.database.database import Database
 
 
 class StdOutDatabase(Database):

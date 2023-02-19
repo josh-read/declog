@@ -1,8 +1,8 @@
 from enum import Enum
 from pprint import pprint
 
-from declog.loggers.logger import Logger, log
-from declog.databases.database import Database
+from declog.logging import Logger, log
+from declog.database.database import Database
 
 
 class FacilityMachines(Enum):

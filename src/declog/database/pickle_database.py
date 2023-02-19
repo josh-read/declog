@@ -4,7 +4,7 @@ from path so for a big database this will be slow.
 Upside is native python objects can be stored so absolutely
 anything can be logged, while for others it is more limited."""
 
-from declog.databases.database import Database
+from declog.database.database import Database
 import pickle
 
 

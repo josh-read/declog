@@ -67,7 +67,7 @@ class Logger:
         return env_dict
 
 
-def get_var_name(var):
+def _get_var_name(var):
     callers_local_vars = inspect.currentframe().f_back.f_back.f_locals.items()
     (var_name,) = [name for name, val in callers_local_vars if val is var]
     return var_name
@@ -85,7 +85,7 @@ def log(key, value=None):
     function, and calls its log method."""
 
     if value is None:
-        key, value = get_var_name(key), key
+        key, value = _get_var_name(key), key
 
     for frame in inspect.stack():
         try:
