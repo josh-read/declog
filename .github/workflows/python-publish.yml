@@ -38,4 +38,6 @@ jobs:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
     - name: Deploy docs
-      run: mkdocs gh-deploy --force
+      run: |
+        pip install .[dev]
+        mkdocs gh-deploy --force
