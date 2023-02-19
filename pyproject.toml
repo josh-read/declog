@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "declog"
-description = "Logger for Python functions which automatically captures input arguments and the return value, plus marked intermediate variables, with minimal boilerplate."
+description = "Minimal boilerplate logger for functions."
 readme = "README.md"
 requires-python = ">=3.9"
 license = {file = "LICENSE"}
@@ -27,7 +27,7 @@ dynamic = ["version"]
 write_to = "src/_version.py"
 
 [project.urls]
-# Documentation = "doesn't exist yet"
+Documentation = "https://josh-read.github.io/declog/"
 Issues = "https://github.com/josh-read/declog/issues"
 Source = "https://github.com/josh-read/declog"
 
