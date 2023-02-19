@@ -8,7 +8,7 @@ and captures the function arguments, intermediate values marked
 with `log` and the return value.
 
 ```python
-from declog.loggers.logger import Logger, log
+from declog import Logger, log
 from declog.database import Database
 
 
