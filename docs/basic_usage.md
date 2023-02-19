@@ -9,7 +9,7 @@ with `log` and the return value.
 
 ```python
 from declog.loggers.logger import Logger, log
-from declog.database.database import Database
+from declog.database import Database
 
 
 class MyLogger(Logger):
