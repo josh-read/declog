@@ -3,8 +3,8 @@
 <p align="center">A minimal boilerplate logger for functions.</p>
 
 <p align="center">
-  <a href="https://github.com/josh-read/declog/actions/workflows/python-package.yml"><img
-    src="https://img.shields.io/github/actions/workflow/status/josh-read/declog/python-package.yml?label=ci"
+  <a href="https://github.com/josh-read/declog/actions/workflows/ci.yml"><img
+    src="https://img.shields.io/github/actions/workflow/status/josh-read/declog/ci.yml?label=ci"
     alt="ci"
   /></a>
   <a href="https://josh-read.github.io/declog/"><img
