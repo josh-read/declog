@@ -40,11 +40,11 @@ with `log` and the return value.
 ```python
 from declog import log
 from declog.logger.base_logger import BaseLogger
-from declog.database import Database
+from declog.database import BaseDatabase
 
 
 class MyLogger(BaseLogger):
-    db = Database()
+    db = BaseDatabase()
     unique_keys = ['function_name', 'datetime']
 
 
@@ -64,7 +64,7 @@ if __name__ == '__main__':
 ```
 
 The BaseLogger is designed to be flexible, in the above example the base class
-Database is used which only saves logged items to a dictionary in memory.
+BaseDatabase is used which only saves logged items to a dictionary in memory.
 For use as a proper logger, the database must be saved to memory. View the
 [reference](reference.md) for options or create your own backend as in the
 [tutorial](tutorial.md).

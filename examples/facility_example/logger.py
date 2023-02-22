@@ -3,7 +3,7 @@ from pprint import pprint
 
 from declog.core import log
 from declog.logger.base_logger import BaseLogger
-from declog.database.database import Database
+from declog.database.base_database import BaseDatabase
 
 
 class FacilityMachines(Enum):
@@ -15,7 +15,7 @@ class FacilityMachines(Enum):
 
 
 class FacilityLogger(BaseLogger):
-    db = Database()
+    db = BaseDatabase()
     unique_keys = "machine shot_number function_name datetime".split()
 
     def build_env_dict(self):

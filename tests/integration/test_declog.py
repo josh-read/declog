@@ -4,10 +4,10 @@ import pytest
 
 from declog import log
 from declog.logger.default_logger import DefaultLogger
-from declog.database import Database, PickleDatabase, StdOutDatabase
+from declog.database import BaseDatabase, PickleDatabase, StdOutDatabase
 
 
-@pytest.mark.parametrize("database", [Database(), StdOutDatabase()])
+@pytest.mark.parametrize("database", [BaseDatabase(), StdOutDatabase()])
 def test_logger_with_database(database):
     class MyLogger(DefaultLogger):
         db = database
