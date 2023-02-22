@@ -4,6 +4,15 @@ from functools import update_wrapper
 from getpass import getuser
 
 
+class logged_property:
+    def __init__(self, func):
+        self.func = func
+        update_wrapper(self, self.func)
+
+    def __call__(self, *args, **kwargs):
+        return self.func(*args, **kwargs)
+
+
 class Logger:
     """Logger class to be subclassed"""
 
@@ -58,13 +67,24 @@ class Logger:
         return positional_args | keyword_args
 
     def build_env_dict(self):
-        env_dict = {
-            "function_name": self._func.__name__,
-            "datetime": str(datetime.now()),
-            # 'version': self.code_version,
-            "user": getuser(),
-        }
+        env_dict = {}
+        for obj_name in dir(self):
+            obj = getattr(self, obj_name)
+            if isinstance(obj, logged_property):
+                env_dict[obj_name] = obj(self)
         return env_dict
+
+    @logged_property
+    def function_name(self):
+        return self._func.__name__
+
+    @logged_property
+    def datetime(self):
+        return str(datetime.now())
+
+    @logged_property
+    def user(self):
+        return getuser()
 
 
 def _get_var_name(var):
