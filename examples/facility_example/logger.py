@@ -1,7 +1,8 @@
 from enum import Enum
 from pprint import pprint
 
-from declog.logging import BaseLogger, log
+from declog.core import log
+from declog.logger.base_logger import BaseLogger
 from declog.database.database import Database
 
 

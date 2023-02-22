@@ -2,7 +2,8 @@ import tempfile
 
 import pytest
 
-from declog import BaseLogger, log
+from declog import log
+from declog.logger.base_logger import BaseLogger
 from declog.database import Database, PickleDatabase, StdOutDatabase
 
 

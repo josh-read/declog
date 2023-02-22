@@ -1,16 +1,7 @@
 import inspect
-from datetime import datetime
 from functools import update_wrapper
-from getpass import getuser
 
-
-class logged_property:
-    def __init__(self, func):
-        self.func = func
-        update_wrapper(self, self.func)
-
-    def __call__(self, *args, **kwargs):
-        return self.func(*args, **kwargs)
+from ..core import logged_property
 
 
 class BaseLogger:
@@ -73,48 +64,3 @@ class BaseLogger:
             if isinstance(obj, logged_property):
                 env_dict[obj_name] = obj(self)
         return env_dict
-
-    @logged_property
-    def function_name(self):
-        return self._func.__name__
-
-    @logged_property
-    def datetime(self):
-        return str(datetime.now())
-
-    @logged_property
-    def user(self):
-        return getuser()
-
-
-def _get_var_name(var):
-    callers_local_vars = inspect.currentframe().f_back.f_back.f_locals.items()
-    (var_name,) = [name for name, val in callers_local_vars if val is var]
-    return var_name
-
-
-def log(key, value=None):
-    """
-    log(value)
-    log(key, value)
-
-    Sends value to the active logger.
-
-    This log function takes a value and a name to reference it by.
-    It then ascends the call stack to the closest BaseLogger decorated
-    function, and calls its log method."""
-
-    if value is None:
-        key, value = _get_var_name(key), key
-
-    for frame in inspect.stack():
-        try:
-            logger = frame.frame.f_locals["self"]
-            assert isinstance(logger, BaseLogger)
-            break
-        except (KeyError, AssertionError):
-            continue
-    else:
-        raise SyntaxError
-    logger.log(key, value)
-    return value
