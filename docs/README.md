@@ -38,11 +38,11 @@ and captures the function arguments, intermediate values marked
 with `log` and the return value.
 
 ```python
-from declog import Logger, log
+from declog import BaseLogger, log
 from declog.database import Database
 
 
-class MyLogger(Logger):
+class MyLogger(BaseLogger):
     db = Database()
     unique_keys = ['function_name', 'datetime']
 
@@ -62,7 +62,7 @@ if __name__ == '__main__':
 
 ```
 
-The Logger is designed to be flexible, in the above example the base class
+The BaseLogger is designed to be flexible, in the above example the base class
 Database is used which only saves logged items to a dictionary in memory.
 For use as a proper logger, the database must be saved to memory. View the
 [reference](reference.md) for options or create your own backend as in the

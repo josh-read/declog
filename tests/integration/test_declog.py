@@ -2,13 +2,13 @@ import tempfile
 
 import pytest
 
-from declog import Logger, log
+from declog import BaseLogger, log
 from declog.database import Database, PickleDatabase, StdOutDatabase
 
 
 @pytest.mark.parametrize("database", [Database(), StdOutDatabase()])
 def test_logger_with_database(database):
-    class MyLogger(Logger):
+    class MyLogger(BaseLogger):
         db = database
         unique_keys = "function_name datetime".split()
 
@@ -28,7 +28,7 @@ def test_logger_with_pickle_database():
 
     with PickleDatabase(temp_file) as pdb:
 
-        class MyLogger(Logger):
+        class MyLogger(BaseLogger):
             db = pdb
             unique_keys = "function_name datetime".split()
 

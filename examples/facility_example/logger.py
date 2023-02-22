@@ -1,7 +1,7 @@
 from enum import Enum
 from pprint import pprint
 
-from declog.logging import Logger, log
+from declog.logging import BaseLogger, log
 from declog.database.database import Database
 
 
@@ -13,7 +13,7 @@ class FacilityMachines(Enum):
     M3 = 3
 
 
-class FacilityLogger(Logger):
+class FacilityLogger(BaseLogger):
     db = Database()
     unique_keys = "machine shot_number function_name datetime".split()
 

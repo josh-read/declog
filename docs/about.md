@@ -25,5 +25,5 @@
 - All settings should be managed in the arguments
   supplied to the function, which allows them to be captured by the decorator.
 - Logging is still achieved simply with the `log` function, which will ascend
-  the call stack until it reaches the `__call__` method of the `Logger` at
-  which point the `Logger` will handle the logged variable.
+  the call stack until it reaches the `__call__` method of the `BaseLogger` at
+  which point the `BaseLogger` will handle the logged variable.

@@ -13,8 +13,8 @@ class logged_property:
         return self.func(*args, **kwargs)
 
 
-class Logger:
-    """Logger class to be subclassed"""
+class BaseLogger:
+    """BaseLogger class to be subclassed"""
 
     db = None
     unique_keys: list[str] = None
@@ -101,7 +101,7 @@ def log(key, value=None):
     Sends value to the active logger.
 
     This log function takes a value and a name to reference it by.
-    It then ascends the call stack to the closest Logger decorated
+    It then ascends the call stack to the closest BaseLogger decorated
     function, and calls its log method."""
 
     if value is None:
@@ -110,7 +110,7 @@ def log(key, value=None):
     for frame in inspect.stack():
         try:
             logger = frame.frame.f_locals["self"]
-            assert isinstance(logger, Logger)
+            assert isinstance(logger, BaseLogger)
             break
         except (KeyError, AssertionError):
             continue
