@@ -14,7 +14,3 @@ def test_facility_example(path_to_example):
     """Run example as __main__ and check there are no errors."""
     assert path_to_example.exists()
     runpy.run_path(str(path_to_example), run_name='__main__')
-
-
-if __name__ == '__main__':
-    print(list(discover_examples()))
