@@ -1,5 +1,6 @@
 from pathlib import Path
 import runpy
+import pytest
 
 
 def discover_examples():
@@ -8,8 +9,9 @@ def discover_examples():
     return example_directory.glob('**/*.py')
 
 
-def test_facility_example():
-    path_to_example = Path('examples/facility_example/logger.py')
+@pytest.mark.parametrize('path_to_example', discover_examples())
+def test_facility_example(path_to_example):
+    """Run example as __main__ and check there are no errors."""
     assert path_to_example.exists()
     runpy.run_path(str(path_to_example), run_name='__main__')
 
