@@ -19,23 +19,10 @@ class FacilityLogger(BaseLogger, FunctionNameMixin, DateTimeMixin, UserMixin):
     db = BaseDatabase()
     unique_keys = "machine shot_number function_name datetime".split()
 
-    def __init__(self, func, **kwargs):
-        super(FacilityLogger, self).__init__(func)
-        for key, value in kwargs.items():
-            setattr(self, key, logged_property(value))
-
     @logged_property
     def version(self):
         """Dummy version for this test"""
         return "1.2.6"
-
-    @classmethod
-    def set(cls, **kwargs):
-        def inner(func):
-            flp_logger = cls(func, **kwargs)
-            return flp_logger
-
-        return inner
 
 
 if __name__ == "__main__":

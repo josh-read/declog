@@ -10,8 +10,10 @@ class BaseLogger:
     db = None
     unique_keys: list[str] = None
 
-    def __init__(self, func):
+    def __init__(self, func, **kwargs):
         self._func = func
+        for key, value in kwargs.items():
+            setattr(self, key, logged_property(value))
         update_wrapper(self, self._func)
         self.db_entry = None  # generated at call time
 
@@ -64,3 +66,11 @@ class BaseLogger:
             if isinstance(obj, logged_property):
                 env_dict[obj_name] = obj(self)
         return env_dict
+
+    @classmethod
+    def set(cls, **kwargs):
+        def inner(func):
+            flp_logger = cls(func, **kwargs)
+            return flp_logger
+
+        return inner
