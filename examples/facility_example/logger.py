@@ -1,9 +1,10 @@
 from enum import Enum
 from pprint import pprint
 
-from declog.core import log
+from declog.core import log, logged_property
 from declog.logger.base_logger import BaseLogger
 from declog.database.base_database import BaseDatabase
+from declog.logger.mixins import FunctionNameMixin, DateTimeMixin, UserMixin
 
 
 class FacilityMachines(Enum):
@@ -14,35 +15,27 @@ class FacilityMachines(Enum):
     M3 = 3
 
 
-class FacilityLogger(BaseLogger):
+class FacilityLogger(BaseLogger, FunctionNameMixin, DateTimeMixin, UserMixin):
     db = BaseDatabase()
     unique_keys = "machine shot_number function_name datetime".split()
 
-    def build_env_dict(self):
-        env_dict = super(FacilityLogger, self).build_env_dict()
-        try:
-            machine = self.machine
-        except AttributeError:
-            return env_dict
-        else:
-            return env_dict | {"machine": machine}
+    def __init__(self, func, **kwargs):
+        super(FacilityLogger, self).__init__(func)
+        for key, value in kwargs.items():
+            setattr(self, key, logged_property(value))
+
+    @logged_property
+    def version(self):
+        """Dummy version for this test"""
+        return "1.2.6"
 
     @classmethod
-    def with_machine(cls, machine: FacilityMachines):
-        """Decorator factory allowing user to manually specify the machine
-        without requiring it as an unused function argument"""
-
+    def set(cls, **kwargs):
         def inner(func):
-            flp_logger = cls(func)
-            flp_logger.machine = machine
+            flp_logger = cls(func, **kwargs)
             return flp_logger
 
         return inner
-
-    @staticmethod
-    def get_code_version():
-        """Dummy version for this test"""
-        return "1.2.6"
 
 
 if __name__ == "__main__":
@@ -54,13 +47,13 @@ if __name__ == "__main__":
         return double_shot_number
 
     def nested_function(a):
-        log(key="nested_function", value="intermediate_value_1")
+        log(key="nested_function", value="intermediate_value_2")
         return a * 2
 
     my_processing_function(21, FacilityMachines.M3, bar=True)
     pprint(my_processing_function.db)
 
-    @FacilityLogger.with_machine(FacilityMachines.M3)
+    @FacilityLogger.set(machine=FacilityMachines.M2)
     def my_processing_function_specifically_for_m3(shot_number, foo=False, bar=False):
         return shot_number
 

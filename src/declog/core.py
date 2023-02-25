@@ -10,7 +10,10 @@ class logged_property:
         update_wrapper(self, self.func)
 
     def __call__(self, *args, **kwargs):
-        return self.func(*args, **kwargs)
+        if callable(self.func):
+            return self.func(*args, **kwargs)
+        else:
+            return self.func
 
 
 def log(key, value=None):
