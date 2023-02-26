@@ -1,19 +1,10 @@
 import inspect
-from functools import update_wrapper
 
 from declog.utils import _get_var_name
 
 
-class logged_property:
-    def __init__(self, func):
-        self.func = func
-        update_wrapper(self, self.func)
-
-    def __call__(self, *args, **kwargs):
-        if callable(self.func):
-            return self.func(*args, **kwargs)
-        else:
-            return self.func
+class logged_property(property):
+    pass
 
 
 def log(key, value=None):

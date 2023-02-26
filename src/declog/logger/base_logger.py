@@ -13,7 +13,7 @@ class BaseLogger:
     def __init__(self, func, **kwargs):
         self._func = func
         for key, value in kwargs.items():
-            setattr(self, key, logged_property(value))
+            setattr(self, key, logged_property(lambda instance: value))
         update_wrapper(self, self._func)
         self.db_entry = None  # generated at call time
 
@@ -61,10 +61,12 @@ class BaseLogger:
 
     def build_env_dict(self):
         env_dict = {}
-        for obj_name in dir(self):
-            obj = getattr(self, obj_name)
-            if isinstance(obj, logged_property):
-                env_dict[obj_name] = obj(self)
+        cls = type(self)
+        for obj_name in dir(cls):
+            obj_type = getattr(cls, obj_name)
+            if isinstance(obj_type, logged_property):
+                obj = getattr(self, obj_name)
+                env_dict[obj_name] = obj
         return env_dict
 
     @classmethod
