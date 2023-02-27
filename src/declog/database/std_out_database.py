@@ -1,7 +1,7 @@
-from declog.database.database import Database
+from declog.database.base_database import BaseDatabase
 
 
-class StdOutDatabase(Database):
+class StdOutDatabase(BaseDatabase):
     def __setitem__(self, key, value):
         super().__setitem__(key, value)
         print(self.root)

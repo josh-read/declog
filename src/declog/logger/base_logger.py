@@ -1,17 +1,19 @@
 import inspect
-from datetime import datetime
 from functools import update_wrapper
-from getpass import getuser
+
+from ..core import logged_property
 
 
-class Logger:
-    """Logger class to be subclassed"""
+class BaseLogger:
+    """BaseLogger class to be subclassed"""
 
     db = None
     unique_keys: list[str] = None
 
-    def __init__(self, func):
+    def __init__(self, func, **kwargs):
         self._func = func
+        for key, value in kwargs.items():
+            setattr(self, key, logged_property(lambda instance: value))
         update_wrapper(self, self._func)
         self.db_entry = None  # generated at call time
 
@@ -58,43 +60,19 @@ class Logger:
         return positional_args | keyword_args
 
     def build_env_dict(self):
-        env_dict = {
-            "function_name": self._func.__name__,
-            "datetime": str(datetime.now()),
-            # 'version': self.code_version,
-            "user": getuser(),
-        }
+        env_dict = {}
+        cls = type(self)
+        for obj_name in dir(cls):
+            obj_type = getattr(cls, obj_name)
+            if isinstance(obj_type, logged_property):
+                obj = getattr(self, obj_name)
+                env_dict[obj_name] = obj
         return env_dict
 
+    @classmethod
+    def set(cls, **kwargs):
+        def inner(func):
+            flp_logger = cls(func, **kwargs)
+            return flp_logger
 
-def _get_var_name(var):
-    callers_local_vars = inspect.currentframe().f_back.f_back.f_locals.items()
-    (var_name,) = [name for name, val in callers_local_vars if val is var]
-    return var_name
-
-
-def log(key, value=None):
-    """
-    log(value)
-    log(key, value)
-
-    Sends value to the active logger.
-
-    This log function takes a value and a name to reference it by.
-    It then ascends the call stack to the closest Logger decorated
-    function, and calls its log method."""
-
-    if value is None:
-        key, value = _get_var_name(key), key
-
-    for frame in inspect.stack():
-        try:
-            logger = frame.frame.f_locals["self"]
-            assert isinstance(logger, Logger)
-            break
-        except (KeyError, AssertionError):
-            continue
-    else:
-        raise SyntaxError
-    logger.log(key, value)
-    return value
+        return inner
