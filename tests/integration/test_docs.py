@@ -1,5 +1,9 @@
 import re
+import runpy
+import tempfile
 from pathlib import Path
+
+import pytest
 
 
 def discover_codeblocks():
@@ -14,6 +18,9 @@ def discover_codeblocks():
             yield file, code
 
 
-if __name__ == "__main__":
-    for file, code in discover_codeblocks():
-        exec(code)
+@pytest.mark.parametrize("file, code", discover_codeblocks())
+def test_codeblocks(file, code):
+    temp_file = tempfile.mktemp()
+    with open(temp_file, "w") as f:
+        f.write(code)
+    runpy.run_path(temp_file, run_name="__main__")
