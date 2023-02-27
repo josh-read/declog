@@ -1,11 +1,11 @@
-from declog.database import Database, PickleDatabase, StdOutDatabase
+from declog.database import BaseDatabase, PickleDatabase, StdOutDatabase
 import tempfile
 
 
 class TestDatabase:
     @staticmethod
     def get_db():
-        return Database()
+        return BaseDatabase()
 
     def test_getitem_simple(self):
         db = self.get_db()
