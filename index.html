@@ -17,7 +17,7 @@
         <link rel="next" href="about/">
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.13">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.15">
     
     
       
@@ -25,7 +25,7 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.ffa9267a.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.113286f1.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.a0c5b2b5.min.css">
@@ -490,12 +490,13 @@ which draws together library code to produce a meaningful result.</p>
 <p>The logger is applied as a decorator to the processing function,
 and captures the function arguments, intermediate values marked
 with <code>log</code> and the return value.</p>
-<pre><code class="language-python">from declog import Logger, log
-from declog.database import Database
+<pre><code class="language-python">from declog import log
+from declog.logger.base_logger import BaseLogger
+from declog.database import BaseDatabase
 
 
-class MyLogger(Logger):
-    db = Database()
+class MyLogger(BaseLogger):
+    db = BaseDatabase()
     unique_keys = ['function_name', 'datetime']
 
 
@@ -513,8 +514,8 @@ if __name__ == '__main__':
     print(my_processing_function.db)
 
 </code></pre>
-<p>The Logger is designed to be flexible, in the above example the base class
-Database is used which only saves logged items to a dictionary in memory.
+<p>The BaseLogger is designed to be flexible, in the above example the base class
+BaseDatabase is used which only saves logged items to a dictionary in memory.
 For use as a proper logger, the database must be saved to memory. View the
 <a href="reference/">reference</a> for options or create your own backend as in the
 <a href="tutorial/">tutorial</a>.</p>
