@@ -26,6 +26,9 @@ dynamic = ["version"]
 [tool.setuptools_scm]
 write_to = "src/_version.py"
 
+[tool.pytest.ini_options]
+addopts = "--doctest-modules"
+
 [project.urls]
 Documentation = "https://josh-read.github.io/declog/"
 Issues = "https://github.com/josh-read/declog/issues"
