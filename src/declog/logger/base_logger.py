@@ -62,8 +62,11 @@ class BaseLogger:
     def build_env_dict(self):
         env_dict = {}
         cls = type(self)
-        for obj_name in dir(cls):
-            obj_type = getattr(cls, obj_name)
+        for obj_name in dir(self):
+            try:
+                obj_type = getattr(cls, obj_name)
+            except AttributeError:
+                obj_type = getattr(self, obj_name)
             if isinstance(obj_type, logged_property):
                 obj = getattr(self, obj_name)
                 env_dict[obj_name] = obj
