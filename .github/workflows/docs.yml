@@ -1,13 +1,8 @@
 name: docs
 
 on:
-  push:
-    branches: [ "main" ]
   release:
     types: [published]
-
-# permissions:
-#   contents: read
 
 permissions:
   contents: write
