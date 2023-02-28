@@ -21,7 +21,7 @@
 
 ## Installation
 
-To install this library, simply use `pip` to install the
+To install DecLog, use [pip](https://pip.pypa.io/) to install the
 latest version from PyPI.
 
 ```commandline
