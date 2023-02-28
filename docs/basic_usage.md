@@ -9,14 +9,12 @@ with `log` and the return value.
 
 ```python
 from declog import log
-from declog.logger.base_logger import BaseLogger
+from declog.logger.default_logger import DefaultLogger
 from declog.database import BaseDatabase
 
 
-class MyLogger(BaseLogger):
+class MyLogger(DefaultLogger):
     db = BaseDatabase()
-    unique_keys = ['function_name', 'datetime']
-
 
 @MyLogger
 def my_processing_function(a, b, c=2, d=3.14):
