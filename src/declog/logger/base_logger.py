@@ -23,8 +23,8 @@ class BaseLogger:
     def __call__(self, *args, **kwargs):
         """Evaluate wrapped function and log variables.
 
-        Collate all the arguments and any [logged properties]() in a dictionary.
-        Save all items in the dictionary to the database `db` under a key specified
+        Collates all the arguments and any [logged properties]() in a dictionary.
+        Saves all items in the dictionary to the database `db` under a key specified
         by the class' `unique_keys` attribute."""
         # populate database with arguments and environment information
         argument_dict = self._build_arg_dict(args, kwargs)
@@ -54,7 +54,7 @@ class BaseLogger:
 
         return inner
 
-    def _build_arg_dict(self, args: list[Any], kwargs: dict[str:Any]) -> dict:
+    def _build_arg_dict(self, args: list[Any], kwargs: dict[str, Any]) -> dict:
         positional_args = {
             k: v for k, v in zip(inspect.signature(self._func).parameters, args)
         }
