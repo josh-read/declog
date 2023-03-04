@@ -39,6 +39,7 @@ class BaseLogger:
         return result
 
     def log(self, key: str, value: Any):
+        """Log the key and value to `db` under the current entry."""
         self.db_entry[key] = value
 
     @classmethod
