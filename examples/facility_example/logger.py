@@ -29,12 +29,12 @@ if __name__ == "__main__":
 
     @FacilityLogger
     def my_processing_function(shot_number, machine, foo=False, bar=False):
-        log(key="top_level_function", value="intermediate_value_1")
+        log(value="intermediate_value_1", key="top_level_function")
         double_shot_number = nested_function(shot_number)
         return double_shot_number
 
     def nested_function(a):
-        log(key="nested_function", value="intermediate_value_2")
+        log(value="intermediate_value_2", key="nested_function")
         return a * 2
 
     my_processing_function(21, FacilityMachines.M3, bar=True)

@@ -15,9 +15,9 @@ def test_logger_with_database(database):
     @MyLogger
     def my_function(a, b, c=3, d=-2):
         ab = a * b
-        log("ab", ab)
+        log(ab, "ab")
         cd = c / d
-        log(cd)
+        log(None, cd)
         return ab + cd
 
     my_function(1, 2)
@@ -34,9 +34,9 @@ def test_logger_with_pickle_database():
         @MyLogger
         def my_function(a, b, c=3, d=-2):
             ab = a * b
-            log("ab", ab)
+            log(ab, "ab")
             cd = c / d
-            log(cd)
+            log(None, cd)
             return ab + cd
 
         my_function(1, 2)
