@@ -15,10 +15,8 @@ class BaseLogger:
     db: Type[BaseDatabase] = None
     unique_keys: list[str] = None
 
-    def __init__(self, func: callable, **kwargs):
+    def __init__(self, func: callable):
         self._func = func
-        for key, value in kwargs.items():
-            setattr(self, key, logged_property(lambda instance: value))
         update_wrapper(self, self._func)
         self.db_entry = None  # generated at call time
 
@@ -46,8 +44,10 @@ class BaseLogger:
     @classmethod
     def set(cls, **kwargs):
         def inner(func):
-            flp_logger = cls(func, **kwargs)
-            return flp_logger
+            logger = cls(func)
+            for key, value in kwargs.items():
+                setattr(logger, key, logged_property(lambda instance: value))
+            return logger
 
         return inner
 
