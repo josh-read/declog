@@ -43,6 +43,8 @@ class BaseLogger:
 
     @classmethod
     def set(cls, **kwargs):
+        """Set kwargs as logged properties."""
+
         def inner(func):
             logger = cls(func)
             for key, value in kwargs.items():
