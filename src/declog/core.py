@@ -5,7 +5,10 @@ from typing import Any
 
 
 class logged_property(property):
-    pass
+    """Marks a property to be logged.
+
+    Thin wrapper around a standard property. Used in a logger class when the property is
+    to be logged each time the wrapped function is called."""
 
 
 def log(value: Any, key: str = None):
