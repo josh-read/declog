@@ -5,7 +5,10 @@ from ..core import logged_property
 
 
 class BaseLogger:
-    """BaseLogger class to be subclassed"""
+    """Base Logger to be subclassed by the user.
+
+    The class attributes `db` and `unique_keys` should be set by
+    subclasses."""
 
     db = None
     unique_keys: list[str] = None
