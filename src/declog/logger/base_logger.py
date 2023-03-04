@@ -22,17 +22,6 @@ class BaseLogger:
         update_wrapper(self, self._func)
         self.db_entry = None  # generated at call time
 
-    def generate_db_entry_and_remove_keys_from_info(self, info: dict) -> dict:
-        """Returns the dictionary corresponding to the specific call entry"""
-        if self.unique_keys is None:
-            raise NotImplementedError
-        else:
-            entry = self.db
-            for key in self.unique_keys:
-                value = info.pop(key)
-                entry = entry[value]
-            return entry
-
     def __call__(self, *args, **kwargs):
         """Evaluate wrapped function and log variables.
 
@@ -40,10 +29,10 @@ class BaseLogger:
         Save all items in the dictionary to the database `db` under a key specified
         by the class' `unique_keys` attribute."""
         # populate database with arguments and environment information
-        argument_dict = self.build_arg_dict(args, kwargs)
-        environment_dict = self.build_env_dict()
+        argument_dict = self._build_arg_dict(args, kwargs)
+        environment_dict = self._build_env_dict()
         call_dict = argument_dict | environment_dict
-        self.db_entry = self.generate_db_entry_and_remove_keys_from_info(call_dict)
+        self.db_entry = self._generate_db_entry_and_remove_keys_from_info(call_dict)
         self.db_entry |= call_dict
         # populate database with intermediate variables and result
         result = self._func(*args, *kwargs)
@@ -54,7 +43,15 @@ class BaseLogger:
     def log(self, key: str, value: Any):
         self.db_entry[key] = value
 
-    def build_arg_dict(self, args: list[Any], kwargs: dict[str:Any]) -> dict:
+    @classmethod
+    def set(cls, **kwargs):
+        def inner(func):
+            flp_logger = cls(func, **kwargs)
+            return flp_logger
+
+        return inner
+
+    def _build_arg_dict(self, args: list[Any], kwargs: dict[str:Any]) -> dict:
         positional_args = {
             k: v for k, v in zip(inspect.signature(self._func).parameters, args)
         }
@@ -68,7 +65,7 @@ class BaseLogger:
         )  # update defaults with supplied keyword arguments
         return positional_args | keyword_args
 
-    def build_env_dict(self) -> dict:
+    def _build_env_dict(self) -> dict:
         env_dict = {}
         cls = type(self)
         for obj_name in dir(self):
@@ -81,10 +78,13 @@ class BaseLogger:
                 env_dict[obj_name] = obj
         return env_dict
 
-    @classmethod
-    def set(cls, **kwargs):
-        def inner(func):
-            flp_logger = cls(func, **kwargs)
-            return flp_logger
-
-        return inner
+    def _generate_db_entry_and_remove_keys_from_info(self, info: dict) -> dict:
+        """Returns the dictionary corresponding to the specific call entry"""
+        if self.unique_keys is None:
+            raise NotImplementedError
+        else:
+            entry = self.db
+            for key in self.unique_keys:
+                value = info.pop(key)
+                entry = entry[value]
+            return entry
