@@ -34,7 +34,11 @@ class BaseLogger:
             return entry
 
     def __call__(self, *args, **kwargs):
-        """The call method is typically overridden in child classes."""
+        """Evaluate wrapped function and log variables.
+
+        Collate all the arguments and any [logged properties]() in a dictionary.
+        Save all items in the dictionary to the database `db` under a key specified
+        by the class' `unique_keys` attribute."""
         # populate database with arguments and environment information
         argument_dict = self.build_arg_dict(args, kwargs)
         environment_dict = self.build_env_dict()
