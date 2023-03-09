@@ -46,12 +46,13 @@ from declog.database import BaseDatabase
 class MyLogger(DefaultLogger):
     db = BaseDatabase()
 
+
 @MyLogger
 def my_processing_function(a, b, c=2, d=3.14):
     ab = a * b
-    log('ab', ab)
+    log(ab, 'ab')
     cd = c - d
-    log(cd)
+    log(None, cd)
     return ab + cd
 
 

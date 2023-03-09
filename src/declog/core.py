@@ -1,38 +1,41 @@
 import inspect
 
 from declog.utils import _get_var_name
+from typing import Any
 
 
 class logged_property(property):
-    pass
+    """Marks a property to be logged.
+
+    Thin wrapper around a standard property. Used in a logger class when the property is
+    to be logged each time the wrapped function is called."""
 
 
-def log(key, value=None):
-    """
-    log(value)
-    log(key, value)
+def log(value: Any, key: str = None):
+    """Log `value` with the closest Logger.
 
-    Sends value to the active logger.
+    This function takes a value and optionally a key to call it.
+    If no key is provided, the name of the variable that the value is
+    assigned to is used.
 
-    This log function takes a value and a name to reference it by.
-    It then ascends the call stack to the closest BaseLogger decorated
-    function, and calls its log method."""
+    The closest logger is determined by stepping backwards through the call stack until
+    a `__call__` method of a class subclassing `BaseLogger` is reached."""
+    # Import outside toplevel avoids circular import
+    from .logger.base_logger import BaseLogger
 
-    if value is None:
-        key, value = _get_var_name(key), key
+    if key is None:
+        key = _get_var_name(value)
 
-    for frame in inspect.stack():
+    # Search for closest Logger
+    for frame, *_ in inspect.stack():
         try:
-            from .logger.base_logger import (
-                BaseLogger,
-            )  # import not at top of file to avoid circular import
-
-            logger = frame.frame.f_locals["self"]
-            assert isinstance(logger, BaseLogger)
+            (logger,) = [
+                val for val in frame.f_locals.values() if isinstance(val, BaseLogger)
+            ]
+        except ValueError:
+            pass  # move on to next frame
+        else:
+            logger.log(key, value)
             break
-        except (KeyError, AssertionError):
-            continue
     else:
-        raise SyntaxError
-    logger.log(key, value)
-    return value
+        raise SyntaxError("No logger found in the call stack.")
