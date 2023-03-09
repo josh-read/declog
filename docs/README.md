@@ -21,7 +21,7 @@
 
 ## Installation
 
-To install this library, simply use `pip` to install the
+To install DecLog, use [pip](https://pip.pypa.io/) to install the
 latest version from PyPI.
 
 ```commandline
@@ -64,11 +64,11 @@ if __name__ == '__main__':
 The BaseLogger is designed to be flexible, in the above example the base class
 BaseDatabase is used which only saves logged items to a dictionary in memory.
 For use as a proper logger, the database must be saved to memory. View the
-[reference](reference.md) for options or create your own backend as in the
-[tutorial](tutorial.md).
+[reference](https://josh-read.github.io/declog/reference/) for options or create your own backend as in the
+[tutorial](https://josh-read.github.io/declog/tutorial/).
 
-For more information on usage, check out the [about](about.md) page or
-[tutorials](tutorial.md) in the docs.
+For more information on usage, check out the [about](https://josh-read.github.io/declog/about/) page or
+[tutorials](https://josh-read.github.io/declog/tutorial/) in the docs.
 
 ## Contributing
 
