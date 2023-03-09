@@ -11,9 +11,9 @@ class PickleDatabase(BaseDatabase):
     Upside is native python objects can be stored so absolutely
     anything can be logged, while for others it is more limited."""
 
-    def __init__(self, path, root=None):
+    def __init__(self, path):
         self.path = path
-        super().__init__(root=root)
+        super().__init__()
 
     def __enter__(self):
         try:
