@@ -14,9 +14,9 @@ class PickleDatabase(BaseDatabase):
     def __init__(self, path):
         self.path = path
         super().__init__(writeback=True)
+        self.read()
 
     def __enter__(self):
-        self.read()
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
