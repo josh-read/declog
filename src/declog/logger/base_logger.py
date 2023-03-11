@@ -36,6 +36,10 @@ class BaseLogger:
         result = self._func(*args, *kwargs)
         self.db_entry["result"] = result
         self.db_entry = None
+        try:
+            self.db.write()
+        except NotImplementedError:
+            pass
         return result
 
     def log(self, key: str, value: Any):

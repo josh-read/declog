@@ -41,4 +41,4 @@ def test_logger_with_pickle_database():
     memory_db_data = my_function.db.data
 
     pickle_db = PickleDatabase(temp_file)
-    pickle_db.data == memory_db_data
+    assert pickle_db.data == memory_db_data
