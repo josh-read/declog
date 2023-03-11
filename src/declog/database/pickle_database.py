@@ -14,15 +14,21 @@ class PickleDatabase(BaseDatabase):
     def __init__(self, path):
         self.path = path
         super().__init__()
+        self.read()
 
     def __enter__(self):
-        try:
-            with open(self.path, "rb+") as f:
-                self.data = pickle.load(f)
-        except FileNotFoundError:
-            pass
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        self.write()
+
+    def read(self):
+        try:
+            with open(self.path, "rb") as f:
+                self.data = pickle.load(f)
+        except FileNotFoundError:
+            pass
+
+    def write(self):
         with open(self.path, "wb") as f:
             pickle.dump(self.data, f)
