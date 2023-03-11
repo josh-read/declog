@@ -24,7 +24,7 @@ class PickleDatabase(BaseDatabase):
 
     def read(self):
         try:
-            with open(self.path, "rb+") as f:
+            with open(self.path, "rb") as f:
                 self.data = pickle.load(f)
         except FileNotFoundError:
             pass
