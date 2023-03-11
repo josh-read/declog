@@ -13,7 +13,7 @@ class PickleDatabase(BaseDatabase):
 
     def __init__(self, path):
         self.path = path
-        super().__init__(writeback=True)
+        super().__init__()
         self.read()
 
     def __enter__(self):
