@@ -1,8 +1,11 @@
 import csv
+from pathlib import Path
 
 
 def path_from_shot_number(shot_number):
-    return f"shot_{shot_number:02d}.csv"
+    parent_dir = Path(__file__).parent
+    file_name = f"shot_{shot_number:02d}.csv"
+    return parent_dir / file_name
 
 
 def write_synthetic_oscilloscope_data(path, t_1, t_2, t_max, n_pts=101):
