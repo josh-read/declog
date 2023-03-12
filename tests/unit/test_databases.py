@@ -1,4 +1,4 @@
-from declog.database import BaseDatabase, PickleDatabase, StdOutDatabase
+from declog.database import BaseDatabase, PickleDatabase, StdOutDatabase, JSONDatabase
 import tempfile
 
 
@@ -39,3 +39,10 @@ class TestPickleDatabase(TestDatabase):
     def get_db():
         temp_file = tempfile.mktemp()
         return PickleDatabase(temp_file)
+
+
+class TestJSONDatabase(TestDatabase):
+    @staticmethod
+    def get_db():
+        temp_file = tempfile.mktemp()
+        return JSONDatabase(temp_file)
