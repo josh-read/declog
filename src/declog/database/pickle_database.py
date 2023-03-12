@@ -41,10 +41,10 @@ class JSONDatabase(PersistentDatabase):
     def read(self):
         try:
             with open(self.path, "r") as f:
-                self.data = json.load(f)
+                self.data = BaseDatabase.from_dict(json.load(f))
         except FileNotFoundError:
             pass
 
     def write(self):
         with open(self.path, "w") as f:
-            json.dump(self.data, f)
+            json.dump(self.to_dict(), f)

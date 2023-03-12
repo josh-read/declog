@@ -35,7 +35,7 @@ def test_logger_with_pickle_database(database):
         ab = a * b
         log(ab, "ab")
         cd = c / d
-        log(None, cd)
+        log(cd)
         return ab + cd
 
     my_function(1, 2)
