@@ -3,7 +3,7 @@ from pprint import pprint
 
 from declog.core import log, logged_property
 from declog.logger.base_logger import BaseLogger
-from declog.database.base_database import BaseDatabase
+from declog.database import BaseDatabase
 from declog.logger.mixins import FunctionNameMixin, DateTimeMixin, UserMixin
 
 
