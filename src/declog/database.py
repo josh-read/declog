@@ -25,12 +25,6 @@ class BaseDatabase(UserDict):
         self[key] = BaseDatabase()
         return self[key]
 
-    def read(self):
-        raise NotImplementedError
-
-    def write(self):
-        raise NotImplementedError
-
     @staticmethod
     def cast(mutable_mapping, new_type):
         out = new_type()
@@ -80,6 +74,12 @@ class PersistentDatabase(BaseDatabase):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.write()
+
+    def read(self):
+        raise NotImplementedError
+
+    def write(self):
+        raise NotImplementedError
 
 
 class PickleDatabase(PersistentDatabase):

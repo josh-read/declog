@@ -38,7 +38,7 @@ class BaseLogger:
         self.db_entry = None
         try:
             self.db.write()
-        except NotImplementedError:
+        except AttributeError:
             pass
         return result
 
