@@ -4,13 +4,24 @@ import pytest
 
 from declog import log
 from declog.logger.default_logger import DefaultLogger
-from declog.database import BaseDatabase, PickleDatabase, StdOutDatabase, JSONDatabase
+from declog.database import BaseDatabase, PersistentDatabase
 
 
-@pytest.mark.parametrize("database", [BaseDatabase(), StdOutDatabase()])
+def all_subclasses(cls):
+    return set(cls.__subclasses__()).union(
+        [s for c in cls.__subclasses__() for s in all_subclasses(c)]
+    )
+
+
+DATABASES = {BaseDatabase} | all_subclasses(BaseDatabase)
+PERSISTENT_DATABASES = all_subclasses(PersistentDatabase)
+TRANSIENT_DATABASES = DATABASES - PERSISTENT_DATABASES - {PersistentDatabase}
+
+
+@pytest.mark.parametrize("database", TRANSIENT_DATABASES)
 def test_logger_with_database(database):
     class MyLogger(DefaultLogger):
-        db = database
+        db = database()
 
     @MyLogger
     def my_function(a, b, c=3, d=-2):
@@ -23,7 +34,7 @@ def test_logger_with_database(database):
     my_function(1, 2)
 
 
-@pytest.mark.parametrize("database", [PickleDatabase, JSONDatabase])
+@pytest.mark.parametrize("database", PERSISTENT_DATABASES)
 def test_logger_with_pickle_database(database):
     temp_file = tempfile.mktemp()
 
