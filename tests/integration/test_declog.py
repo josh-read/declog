@@ -3,7 +3,7 @@ import tempfile
 import pytest
 
 from declog import log
-from declog.logger.default_logger import DefaultLogger
+from declog.logger import DefaultLogger
 from declog.database import BaseDatabase, PersistentDatabase
 
 

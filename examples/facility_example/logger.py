@@ -2,7 +2,7 @@ from enum import Enum
 from pprint import pprint
 
 from declog.core import log, logged_property
-from declog.logger.base_logger import BaseLogger
+from declog.logger import BaseLogger
 from declog.database import BaseDatabase
 from declog.logger.mixins import FunctionNameMixin, DateTimeMixin, UserMixin
 
