@@ -9,7 +9,7 @@ with `log` and the return value.
 
 ```python
 from declog import log
-from declog.logger.default_logger import DefaultLogger
+from declog.logger import DefaultLogger
 from declog.database import BaseDatabase
 
 

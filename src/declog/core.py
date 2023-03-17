@@ -21,7 +21,7 @@ def log(value: Any, key: str = None):
     The closest logger is determined by stepping backwards through the call stack until
     a `__call__` method of a class subclassing `BaseLogger` is reached."""
     # Import outside toplevel avoids circular import
-    from .logger.base_logger import BaseLogger
+    from declog.logger import BaseLogger
 
     if key is None:
         key = _get_var_name(value)
