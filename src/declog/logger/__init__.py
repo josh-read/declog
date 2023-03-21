@@ -59,9 +59,9 @@ class BaseLogger:
         """Set kwargs as logged properties."""
 
         def inner(func):
-            logger = cls(func)
             for key, value in kwargs.items():
-                setattr(logger, key, logged_property(lambda instance: value))
+                setattr(cls, key, logged_property(lambda instance: value))
+            logger = cls(func)
             return logger
 
         return inner
