@@ -81,10 +81,10 @@ if __name__ == "__main__":
         log(value="intermediate_value_2", key="nested_function")
         return a * 2
 
-    my_processing_function(21, FacilityMachines.M3, bar=True)
+    my_processing_function(21, FacilityMachines.M2, bar=True)
     pprint(my_processing_function.db)
 
-    @FacilityLogger.set(machine=FacilityMachines.M2)
+    @FacilityLogger.set(machine=FacilityMachines.M3)
     def my_processing_function_specifically_for_m3(shot_number, foo=False, bar=False):
         return shot_number
 
