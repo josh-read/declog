@@ -4,7 +4,7 @@ import pytest
 
 from declog import log
 from declog.logger import DefaultLogger
-from declog.database import BaseDatabase, PersistentDatabase
+from declog.database import BaseDatabase, StdOutDatabase, PickleDatabase, JSONDatabase
 
 
 def all_subclasses(cls):
@@ -13,9 +13,8 @@ def all_subclasses(cls):
     )
 
 
-DATABASES = {BaseDatabase} | all_subclasses(BaseDatabase)
-PERSISTENT_DATABASES = all_subclasses(PersistentDatabase)
-TRANSIENT_DATABASES = DATABASES - PERSISTENT_DATABASES - {PersistentDatabase}
+TRANSIENT_DATABASES = [BaseDatabase, StdOutDatabase]
+PERSISTENT_DATABASES = [PickleDatabase, JSONDatabase]
 
 
 @pytest.mark.parametrize("database", TRANSIENT_DATABASES)
