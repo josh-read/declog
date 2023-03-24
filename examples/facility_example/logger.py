@@ -1,11 +1,10 @@
 from enum import Enum
-
-from pprint import pprint
 from pathlib import Path
+from pprint import pprint
 
 from declog.core import log, logged_property
-from declog.logger import BaseLogger
 from declog.database import JSONDatabase, PersistentDatabase
+from declog.logger import BaseLogger
 from declog.logger.mixins import FunctionNameMixin, DateTimeMixin, UserMixin
 
 
