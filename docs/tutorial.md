@@ -52,4 +52,32 @@ the interaction between the machine and the load.
 
 ## Setting custom unique keys
 
+The most basic customisation one can make to the BaseLogger
+is to add custom keys. In fact, all the DefaultLogger does is
+inherit from the BaseLogger, set the database to the PickleDatabase
+and set the database keys to the function name and datetime.
+
+At our research lab, every experiment is conducted on one of several
+machines and is assigned a shot number. So for example, two separate
+experiments could be conducted on Machine A and Machine B but they
+could share the same shot number.
+
+Clearly, we need to differentiate between these experiments, so we need
+to set the keys to make this clear:
+
+```python
+from declog.logger import BaseLogger
+from declog.database import BaseDatabase
+
+class FacilityLogger(BaseLogger):
+    db = BaseDatabase()
+    unique_keys = "machine shot_number function_name datetime".split()
+```
+
+Now, when the FacilityLogger is applied to a function, every time the function
+is run a new entry
+will be created in the underlying database, using the captured values
+in the order
+specified in `unique_keys`.
+
 ## Using a custom database
