@@ -80,4 +80,12 @@ will be created in the underlying database, using the captured values
 in the order
 specified in `unique_keys`.
 
+## Manually setting key values
+
+The intention of this library is to reduce work for developers by automatically logging all the arguments supplied to an
+analysis function. However, due to the key system, it is required to supply some variables for logging, even if they are
+not actually required by the function. One option is to make the key a redundant argument to the function, this is
+ugly and will often draw complaints from your IDE of choice. Instead, one can use the `set()` class method from the
+BaseLogger.
+
 ## Using a custom database
