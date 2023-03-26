@@ -9,7 +9,7 @@ def path_from_shot_number(shot_number):
 
 
 def write_synthetic_oscilloscope_data(path, t_1, t_2, t_max, n_pts=101):
-    with open(path, "w") as f:
+    with open(path, "w", newline='') as f:
         writer = csv.writer(f)
         for i in range(n_pts):
             t = i / (n_pts - 1) * t_max
