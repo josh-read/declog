@@ -50,6 +50,14 @@ routines on our experimental data. Each experiment involves firing a 'shot'
 on one of the machines, and a number of measurements are made depending on
 the interaction between the machine and the load.
 
+Let's create an object representing the various options for a machine containing
+all the possible machines. Using an Enum, we can store the different machine names
+with the corresponding folder number:
+
+```python
+--8<-- "examples/facility_example/machines.py"
+```
+
 ## Setting custom unique keys
 
 The most basic customisation one can make to the BaseLogger

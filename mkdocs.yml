@@ -7,6 +7,9 @@ repo_name: "josh-read/declog"
 theme:
   name: "material"
 
+markdown_extensions:
+    - pymdownx.snippets:
+
 plugins:
   - mkdocstrings
 
