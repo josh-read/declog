@@ -22,7 +22,6 @@ class FacilityDatabase(PersistentDatabase):
         self.dbs = {k: JSONDatabase(v) for k, v in db_paths.items()}
 
     def __getitem__(self, item):
-        print(item)
         if isinstance(item, FacilityMachines):
             return self.dbs[item]
         else:
@@ -31,7 +30,6 @@ class FacilityDatabase(PersistentDatabase):
             )
 
     def __setitem__(self, key, value):
-        print(key, value)
         if isinstance(key, FacilityMachines):
             self.dbs[key] = value
 
