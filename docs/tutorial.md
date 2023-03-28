@@ -93,7 +93,11 @@ specified in `unique_keys`.
 The intention of this library is to reduce work for developers by automatically logging all the arguments supplied to an
 analysis function. However, due to the key system, it is required to supply some variables for logging, even if they are
 not actually required by the function. One option is to make the key a redundant argument to the function, this is
-ugly and will often draw complaints from your IDE of choice. Instead, one can use the `set()` class method from the
+inconsistent with PEP8 and will not pass flake8 checks. Instead, one can use the `set()` class method from the
 BaseLogger.
+
+```python
+--8<-- "examples/facility_example/library_functions.py"
+```
 
 ## Using a custom database
