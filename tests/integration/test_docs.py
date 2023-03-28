@@ -15,6 +15,8 @@ def discover_codeblocks():
             text = f.read()
         codeblocks = re.findall("```python(.*?)```", text, re.DOTALL)
         for code in codeblocks:
+            if '--8<--' in code:  # code is being inserted using markdown snippets
+                continue
             yield file, code
 
 
@@ -24,9 +26,3 @@ def test_codeblocks(file, code):
     with open(temp_file, "w") as f:
         f.write(code)
     runpy.run_path(temp_file, run_name="__main__")
-
-
-if __name__ == '__main__':
-    for x in discover_codeblocks():
-        print(x[0])
-        print(x[1].replace('\\n', '\n'))
