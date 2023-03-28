@@ -13,7 +13,7 @@ def discover_codeblocks():
     for file in markdown_files:
         with open(file, "r") as f:
             text = f.read()
-        codeblocks = re.findall("```python(.*)```", text, re.DOTALL)
+        codeblocks = re.findall("```python(.*?)```", text, re.DOTALL)
         for code in codeblocks:
             yield file, code
 
@@ -24,3 +24,9 @@ def test_codeblocks(file, code):
     with open(temp_file, "w") as f:
         f.write(code)
     runpy.run_path(temp_file, run_name="__main__")
+
+
+if __name__ == '__main__':
+    for x in discover_codeblocks():
+        print(x[0])
+        print(x[1].replace('\\n', '\n'))
