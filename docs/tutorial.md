@@ -146,3 +146,46 @@ class FacilityLogger(BaseLogger):
     db = FacilityDatabase()
     unique_keys = "machine shot_number function_name datetime".split()
 ```
+
+## Capturing information about the environment
+
+So far, we have seen that we are able to log values using
+the `log` function and that the function arguments are captured
+automatically by the Logger. But what if we want to automatically
+capture information about the environment the function is being called
+in?
+
+Let's go back to our example research facility. We would like to know what
+version of the code we are running at the time. Given the examples so far,
+we have the options of making a `log` call in every function, or making it
+an argument to all functions, neither of which are particularly
+maintainable.
+
+DecLog gives us the option of using `logged_properties`.
+
+```python
+from declog import logged_property
+from declog.logger import DefaultLogger
+
+class MyLogger(DefaultLogger):
+
+    @logged_property
+    def meaning_of_life(self):
+        return 42
+
+    
+assert MyLogger(lambda: None).meaning_of_life == 42
+
+```
+
+These behave just like normal properties, and can be accessed from an
+instance at any time. Whenever a decorated function is called, any logged
+properties are added to the database entry, and can be used as keys if
+desired.
+
+Logged properties are also how the DefaultLogger captures the name of the
+function and time of the function call. If we look at the class definition,
+we find that it inherits the `FunctionNameMixin` and `DateTimeMixin`, each
+of which define one `logged_property` method. In `declog.logger.mixins`
+a few commonly used `logged_property`s are defined. It is worth taking
+a look at these mixins, as they may be useful in your logger.
