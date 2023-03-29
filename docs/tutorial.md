@@ -129,6 +129,20 @@ below for this illustrated as a tree diagram.
         └── ...
 ```
 
-In
-order to go between the database interface used by the logger and our own
+In order to go between the database interface used by the logger and our own
 custom storage format, we need to create a custom database:
+
+```python
+--8<-- "examples/facility_example/logger.py:FacilityDatabase"
+```
+
+Finally, we need to supply this as the database to our logger:
+
+```python
+from declog.logger import BaseLogger
+from examples.facility_example.logger import FacilityDatabase
+
+class FacilityLogger(BaseLogger):
+    db = FacilityDatabase()
+    unique_keys = "machine shot_number function_name datetime".split()
+```

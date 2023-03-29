@@ -7,6 +7,7 @@ from declog.logger.mixins import FunctionNameMixin, DateTimeMixin, UserMixin
 from examples.facility_example.machines import FacilityMachines
 
 
+# --8<-- [start:FacilityDatabase]
 class FacilityDatabase(PersistentDatabase):
     def __init__(self):
         db_paths = self.gen_db_paths()
@@ -42,6 +43,9 @@ class FacilityDatabase(PersistentDatabase):
             db_path = Path(f"{machine.value:02d}_{machine.name}/metadata/shot_db.json")
             machine_databases[machine] = data_path / db_path
         return machine_databases
+
+
+# --8<-- [end:FacilityDatabase]
 
 
 class FacilityLogger(BaseLogger, FunctionNameMixin, DateTimeMixin, UserMixin):
