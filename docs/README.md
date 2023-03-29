@@ -40,25 +40,20 @@ with `log` and the return value.
 ```python
 from declog import log
 from declog.logger import DefaultLogger
-from declog.database import BaseDatabase
 
 
-class MyLogger(DefaultLogger):
-    db = BaseDatabase()
-
-
-@MyLogger
+@DefaultLogger
 def my_processing_function(a, b, c=2, d=3.14):
     ab = a * b
     log(ab, 'ab')
     cd = c - d
-    log(None, cd)
+    log(cd)
     return ab + cd
 
 
 if __name__ == '__main__':
     my_processing_function(1, 5)
-    print(my_processing_function.db)
+    print(DefaultLogger.db)
 
 ```
 

@@ -112,5 +112,5 @@ class DefaultLogger(BaseLogger, FunctionNameMixin, DateTimeMixin):
     from zero to logging and demonstrating how easy it is to write a
     custom Logger using mixins."""
 
-    db = PickleDatabase
+    db = PickleDatabase("db.pickle")
     unique_keys = ["function_name", "datetime"]
