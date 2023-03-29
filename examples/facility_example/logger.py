@@ -1,18 +1,10 @@
-from enum import Enum
 from pathlib import Path
 
 from declog.core import logged_property
 from declog.database import JSONDatabase, PersistentDatabase
 from declog.logger import BaseLogger
 from declog.logger.mixins import FunctionNameMixin, DateTimeMixin, UserMixin
-
-
-class FacilityMachines(Enum):
-    """Used to generate filepath of metadata directories. Machine number corresponds to
-    folder number in /data"""
-
-    M2 = 2
-    M3 = 3
+from examples.facility_example.machines import FacilityMachines
 
 
 class FacilityDatabase(PersistentDatabase):
