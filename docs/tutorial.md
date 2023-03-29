@@ -101,3 +101,34 @@ BaseLogger.
 ```
 
 ## Using a custom database
+
+So far, our Logger uses the BaseDatabase, which is an abstract type that
+defines how a database is stored in memory, but doesn't specify any
+persistent file format. There are a couple of built-in options, but this
+example will demonstrate how to create your own.
+
+This research lab already has its own data storage protocol, each machine
+has a json file which is used to log shot variables for that machine. See
+below for this illustrated as a tree diagram.
+
+```
+.
+└── data/
+    ├── 02_M2/
+    │   ├── metadata/
+    │   │   └── shot_db.json
+    │   ├── raw_data/
+    │   │   ├── s0001
+    │   │   ├── s0002
+    │   │   └── ...
+    │   └── processed_data/
+    │       ├── s0001
+    │       ├── s0002
+    │       └── ...
+    └── 03_M3/
+        └── ...
+```
+
+In
+order to go between the database interface used by the logger and our own
+custom storage format, we need to create a custom database:
