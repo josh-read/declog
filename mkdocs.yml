@@ -7,16 +7,18 @@ repo_name: "josh-read/declog"
 theme:
   name: "material"
 
+markdown_extensions:
+    - pymdownx.snippets:
+
 plugins:
   - mkdocstrings
 
 nav:
-  - Home:
-    - Overview: README.md
-    - About: about.md
+  - Home: README.md
   - User Guide:
-    - Installation: 'install.md'
-    - Basic Usage: 'basic_usage.md'
-    - Tutorial: 'tutorial.md'
-  - API Reference: 'reference.md'
-  - Developer Guide: 'dev_guide.md'
+    - About: about.md
+    - Installation: install.md
+    - Basic Usage: basic_usage.md
+    - Tutorial: tutorial.md
+  - API Reference: reference.md
+  - Developer Guide: dev_guide.md

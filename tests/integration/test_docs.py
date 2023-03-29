@@ -13,8 +13,10 @@ def discover_codeblocks():
     for file in markdown_files:
         with open(file, "r") as f:
             text = f.read()
-        codeblocks = re.findall("```python(.*)```", text, re.DOTALL)
+        codeblocks = re.findall("```python(.*?)```", text, re.DOTALL)
         for code in codeblocks:
+            if '--8<--' in code:  # code is being inserted using markdown snippets
+                continue
             yield file, code
 
 

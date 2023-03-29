@@ -10,7 +10,7 @@ from functools import update_wrapper
 from typing import Type, Any
 
 from declog import logged_property
-from declog.database import BaseDatabase
+from declog.database import BaseDatabase, PickleDatabase
 from .mixins import FunctionNameMixin, DateTimeMixin
 
 
@@ -59,9 +59,9 @@ class BaseLogger:
         """Set kwargs as logged properties."""
 
         def inner(func):
-            logger = cls(func)
             for key, value in kwargs.items():
-                setattr(logger, key, logged_property(lambda instance: value))
+                setattr(cls, key, logged_property(lambda instance: value))
+            logger = cls(func)
             return logger
 
         return inner
@@ -112,4 +112,5 @@ class DefaultLogger(BaseLogger, FunctionNameMixin, DateTimeMixin):
     from zero to logging and demonstrating how easy it is to write a
     custom Logger using mixins."""
 
+    db = PickleDatabase
     unique_keys = ["function_name", "datetime"]
