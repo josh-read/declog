@@ -2,6 +2,7 @@ import re
 import runpy
 import tempfile
 from pathlib import Path
+import os
 
 import pytest
 
@@ -15,14 +16,18 @@ def discover_codeblocks():
             text = f.read()
         codeblocks = re.findall("```python(.*?)```", text, re.DOTALL)
         for code in codeblocks:
-            if '--8<--' in code:  # code is being inserted using markdown snippets
+            if "--8<--" in code:  # code is being inserted using markdown snippets
                 continue
             yield file, code
 
 
 @pytest.mark.parametrize("file, code", discover_codeblocks())
 def test_codeblocks(file, code):
+    temp_dir = tempfile.gettempdir()
+    current_dir = os.getcwd()
+    os.chdir(temp_dir)
     temp_file = tempfile.mktemp()
     with open(temp_file, "w") as f:
         f.write(code)
     runpy.run_path(temp_file, run_name="__main__")
+    os.chdir(current_dir)
