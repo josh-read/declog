@@ -1,3 +1,4 @@
+import functools
 import re
 import runpy
 import tempfile
@@ -21,13 +22,29 @@ def discover_codeblocks():
             yield file, code
 
 
+def run_in_temp_dir(func):
+    """Runs func in temporary directory.
+
+    Changes directory to a random temporary directory, runs the function, then returns
+    to the previous working directory. Useful when the functions are run as tests but
+    produce unwanted auxiliary files."""
+
+    @functools.wraps(func)
+    def inner(*args, **kwargs):
+        temp_dir = tempfile.gettempdir()
+        current_dir = os.getcwd()
+        os.chdir(temp_dir)
+        result = func(*args, **kwargs)
+        os.chdir(current_dir)
+        return result
+
+    return inner
+
+
 @pytest.mark.parametrize("file, code", discover_codeblocks())
+@run_in_temp_dir
 def test_codeblocks(file, code):
-    temp_dir = tempfile.gettempdir()
-    current_dir = os.getcwd()
-    os.chdir(temp_dir)
     temp_file = tempfile.mktemp()
     with open(temp_file, "w") as f:
         f.write(code)
     runpy.run_path(temp_file, run_name="__main__")
-    os.chdir(current_dir)
