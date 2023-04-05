@@ -40,6 +40,7 @@ virtual = ".venv"
 [project.optional-dependencies]
 dev = [
   "pytest",
+  "pytest-cov",
   "pre-commit",
   "black",
   "flake8",
