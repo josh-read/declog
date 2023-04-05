@@ -1,5 +1,11 @@
-from declog.database import BaseDatabase, PickleDatabase, StdOutDatabase, JSONDatabase
 import tempfile
+
+import pytest
+
+from declog.database import BaseDatabase, PickleDatabase, StdOutDatabase, JSONDatabase
+
+TRANSIENT_DATABASES = [BaseDatabase, StdOutDatabase]
+PERSISTENT_DATABASES = [PickleDatabase, JSONDatabase]
 
 
 class TestDatabase:
@@ -46,3 +52,15 @@ class TestJSONDatabase(TestDatabase):
     def get_db():
         temp_file = tempfile.mktemp()
         return JSONDatabase(temp_file)
+
+
+@pytest.mark.parametrize("database", PERSISTENT_DATABASES)
+def test_persistent_database_recall(database):
+    temp_file = tempfile.mktemp()
+
+    memory_db = database(temp_file)
+    memory_db["hi"] = "hello"
+    memory_db.write()
+
+    storage_db = database(temp_file)
+    assert storage_db.data == memory_db.data
