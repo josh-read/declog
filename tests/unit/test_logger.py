@@ -3,6 +3,18 @@ from declog.logger.mixins import FunctionNameMixin
 from declog.database import BaseDatabase
 
 
+def test_nested_logger():
+    assert False
+
+
+def test_argument_capture():
+    assert False
+
+
+def test_duplicate_entries():
+    assert False
+
+
 def test_set_method():
     class MyLogger(BaseLogger, FunctionNameMixin):
         db = BaseDatabase()
