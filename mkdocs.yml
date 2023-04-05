@@ -8,7 +8,8 @@ theme:
   name: "material"
 
 markdown_extensions:
-    - pymdownx.snippets:
+  - footnotes
+  - pymdownx.snippets:
 
 plugins:
   - mkdocstrings

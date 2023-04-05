@@ -1,29 +1,27 @@
-# What is DecLog?
+# About
 
-**Dec**orator **Log**ger. A minimal boilerplate logger for functions.
+[//]: # (what)
+DecLog provides a framework for building unintrusive loggers for functions.
+The `Logger` is applied to functions or methods as a decorator, and
+automatically captures the arguments and return values, plus some optional
+information about the environment. The user can also manually log values
+with the `log` function. The `Logger` sends these values to a `Database`
+which can be used interchangeably with different output formats. The
+`Database` behaves similarly to a python dictionary, making it intuitive
+to access past entries.
 
-## The problem
+[//]: # (why)
+DecLog was originally designed to integrate with a data analysis library
+at a research facility in order to create an archive of results[^1]. Existing
+logging libraries are geared towards long-running services by
+producing a flat feed of messages (differentiable only by level i.e. info/
+warning/error). DecLog is aimed at recording function calls, and stores
+logged values in a hierarchical structure, using key-value pairs.
 
-- Existing logging libraries are geared towards logging for
-  long-running services
-- Sometimes we write code to execute a routine, more like a
-  script. This library aims to be a convenient logger for these
-  functions with minimal boilerplate.
-- We often repeat the same analysis routine for many datasets.
-- Often we require not only the final output of the routine, but wish to
-  log intermediate values.
-- If we compare two results, we need to know whether the analysis
-  code was the same or different. (Most obvious way to do this is
-  to compare code version, however it is not always this simple.)
-- Logging should be easy and not require the user to have to figure
-  out correct paths to store results.
+DecLog is available right now! Check out the [installation guide](install.md).
 
-## The solution
-
-- Decorate the 'main' function which is the top level entry point to the
-  analysis routine.
-- All settings should be managed in the arguments
-  supplied to the function, which allows them to be captured by the decorator.
-- Logging is still achieved simply with the `log` function, which will ascend
-  the call stack until it reaches the `__call__` method of the `BaseLogger` at
-  which point the `BaseLogger` will handle the logged variable.
+[^1]:
+  The motivation for archiving results with function arguments and
+  intermediate values, in addition to the code version, is that
+  it makes the result entirely reproducible - a cornerstone of the scientific
+  method.
