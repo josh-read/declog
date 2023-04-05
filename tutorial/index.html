@@ -19,7 +19,7 @@
         <link rel="next" href="../reference/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.15">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.5">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.113286f1.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.7a7fce14.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
@@ -85,7 +85,9 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="DecLog" class="md-header__button md-logo" aria-label="DecLog" data-md-component="logo">
       
@@ -182,58 +184,10 @@
   
   
   
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-      
-      
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
-      
-      
-      
-        <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
-          Home
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_1">
-          <span class="md-nav__icon md-icon"></span>
-          Home
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
     <li class="md-nav__item">
       <a href=".." class="md-nav__link">
-        Overview
+        Home
       </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../about/" class="md-nav__link">
-        About
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -268,6 +222,20 @@
           User Guide
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+            
           
             
               
@@ -344,8 +312,22 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#manually-setting-key-values" class="md-nav__link">
+    Manually setting key values
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#using-a-custom-database" class="md-nav__link">
     Using a custom database
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capturing-information-about-the-environment" class="md-nav__link">
+    Capturing information about the environment
   </a>
   
 </li>
@@ -429,8 +411,22 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#manually-setting-key-values" class="md-nav__link">
+    Manually setting key values
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#using-a-custom-database" class="md-nav__link">
     Using a custom database
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capturing-information-about-the-environment" class="md-nav__link">
+    Capturing information about the environment
   </a>
   
 </li>
@@ -454,9 +450,177 @@
 
 
 <h1 id="tutorial">Tutorial</h1>
-<p>Tutorial based on code in <code>examples/facility_example</code>.</p>
+<p>This tutorial is written to demonstrate some useful functionality
+built into the DecLog library, as well as how to write your own Database
+backend and extend the BaseLogger.</p>
+<p>Say for example, that we want to overhaul the way we record analysis
+results at a research lab.</p>
+<p>Our research lab has an extensive analysis library, providing well tested
+and documented functions and classes for performing common analysis
+routines on our experimental data. Each experiment involves firing a 'shot'
+on one of the machines, and a number of measurements are made depending on
+the interaction between the machine and the load.</p>
+<p>Let's create an object representing the various options for a machine containing
+all the possible machines. Using an Enum, we can store the different machine names
+with the corresponding folder number:</p>
+<pre><code class="language-python">from enum import Enum
+
+
+class FacilityMachines(Enum):
+    &quot;&quot;&quot;Used to generate filepath of metadata directories. Machine number corresponds to
+    folder number in /data&quot;&quot;&quot;
+
+    M2 = 2
+    M3 = 3
+</code></pre>
 <h2 id="setting-custom-unique-keys">Setting custom unique keys</h2>
+<p>The most basic customisation one can make to the BaseLogger
+is to add custom keys. In fact, all the DefaultLogger does is
+inherit from the BaseLogger, set the database to the PickleDatabase
+and set the database keys to the function name and datetime.</p>
+<p>At our research lab, every experiment is conducted on one of several
+machines and is assigned a shot number. So for example, two separate
+experiments could be conducted on Machine A and Machine B but they
+could share the same shot number.</p>
+<p>Clearly, we need to differentiate between these experiments, so we need
+to set the keys to make this clear:</p>
+<pre><code class="language-python">from declog.logger import BaseLogger
+from declog.database import BaseDatabase
+
+class FacilityLogger(BaseLogger):
+    db = BaseDatabase()
+    unique_keys = &quot;machine shot_number function_name datetime&quot;.split()
+</code></pre>
+<p>Now, when the FacilityLogger is applied to a function, every time the function
+is run a new entry
+will be created in the underlying database, using the captured values
+in the order
+specified in <code>unique_keys</code>.</p>
+<h2 id="manually-setting-key-values">Manually setting key values</h2>
+<p>The intention of this library is to reduce work for developers by automatically logging all the arguments supplied to an
+analysis function. However, due to the key system, it is required to supply some variables for logging, even if they are
+not actually required by the function. One option is to make the key a redundant argument to the function, this is
+inconsistent with PEP8 and will not pass flake8 checks. Instead, one can use the <code>set()</code> class method from the
+BaseLogger.</p>
+<pre><code class="language-python">from examples.facility_example.logger import FacilityLogger, FacilityMachines
+
+
+@FacilityLogger
+def my_processing_function_for_any_machine(machine: FacilityMachines, shot_number: int):
+    return machine.value * shot_number
+
+
+@FacilityLogger.set(machine=FacilityMachines.M3)
+def my_processing_function_for_m3(shot_number: int):
+    return shot_number
+</code></pre>
 <h2 id="using-a-custom-database">Using a custom database</h2>
+<p>So far, our Logger uses the BaseDatabase, which is an abstract type that
+defines how a database is stored in memory, but doesn't specify any
+persistent file format. There are a couple of built-in options, but this
+example will demonstrate how to create your own.</p>
+<p>This research lab already has its own data storage protocol, each machine
+has a json file which is used to log shot variables for that machine. See
+below for this illustrated as a tree diagram.</p>
+<pre><code>.
+└── data/
+    ├── 02_M2/
+    │   ├── metadata/
+    │   │   └── shot_db.json
+    │   ├── raw_data/
+    │   │   ├── s0001
+    │   │   ├── s0002
+    │   │   └── ...
+    │   └── processed_data/
+    │       ├── s0001
+    │       ├── s0002
+    │       └── ...
+    └── 03_M3/
+        └── ...
+</code></pre>
+<p>In order to go between the database interface used by the logger and our own
+custom storage format, we need to create a custom database:</p>
+<pre><code class="language-python">class FacilityDatabase(PersistentDatabase):
+    def __init__(self):
+        db_paths = self.gen_db_paths()
+        self.dbs = {k: JSONDatabase(v) for k, v in db_paths.items()}
+
+    def __getitem__(self, item):
+        if isinstance(item, FacilityMachines):
+            return self.dbs[item]
+        else:
+            raise TypeError(
+                &quot;The first key when using the FacilityDatabase must be a machine.&quot;
+            )
+
+    def __setitem__(self, key, value):
+        if isinstance(key, FacilityMachines):
+            self.dbs[key] = value
+
+    def __repr__(self):
+        print_dict = {}
+        for machine, db in self.dbs.items():
+            print_dict[machine] = db
+        return repr(print_dict)
+
+    def write(self):
+        for db in self.dbs.values():
+            db.write()
+
+    @staticmethod
+    def gen_db_paths():
+        machine_databases = {}
+        data_path = Path(__file__).parent / &quot;data&quot;
+        for machine in FacilityMachines:
+            db_path = Path(f&quot;{machine.value:02d}_{machine.name}/metadata/shot_db.json&quot;)
+            machine_databases[machine] = data_path / db_path
+        return machine_databases
+
+
+</code></pre>
+<p>Finally, we need to supply this as the database to our logger:</p>
+<pre><code class="language-python">from declog.logger import BaseLogger
+from examples.facility_example.logger import FacilityDatabase
+
+class FacilityLogger(BaseLogger):
+    db = FacilityDatabase()
+    unique_keys = &quot;machine shot_number function_name datetime&quot;.split()
+</code></pre>
+<h2 id="capturing-information-about-the-environment">Capturing information about the environment</h2>
+<p>So far, we have seen that we are able to log values using
+the <code>log</code> function and that the function arguments are captured
+automatically by the Logger. But what if we want to automatically
+capture information about the environment the function is being called
+in?</p>
+<p>Let's go back to our example research facility. We would like to know what
+version of the code we are running at the time. Given the examples so far,
+we have the options of making a <code>log</code> call in every function, or making it
+an argument to all functions, neither of which are particularly
+maintainable.</p>
+<p>DecLog gives us the option of using <code>logged_properties</code>.</p>
+<pre><code class="language-python">from declog import logged_property
+from declog.logger import DefaultLogger
+
+class MyLogger(DefaultLogger):
+
+    @logged_property
+    def meaning_of_life(self):
+        return 42
+
+
+assert MyLogger(lambda: None).meaning_of_life == 42
+
+</code></pre>
+<p>These behave just like normal properties, and can be accessed from an
+instance at any time. Whenever a decorated function is called, any logged
+properties are added to the database entry, and can be used as keys if
+desired.</p>
+<p>Logged properties are also how the DefaultLogger captures the name of the
+function and time of the function call. If we look at the class definition,
+we find that it inherits the <code>FunctionNameMixin</code> and <code>DateTimeMixin</code>, each
+of which define one <code>logged_property</code> method. In <code>declog.logger.mixins</code>
+a few commonly used <code>logged_property</code>s are defined. It is worth taking
+a look at these mixins, as they may be useful in your logger.</p>
 
 
 
@@ -497,7 +661,7 @@
     <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.2a6f1dda.min.js"></script>
+      <script src="../assets/javascripts/bundle.407015b8.min.js"></script>
       
     
   </body>
