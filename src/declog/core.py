@@ -24,7 +24,7 @@ def log(value: Any, key: str = None):
     from declog.logger import BaseLogger
 
     if key is None:
-        key = _get_var_name(value)
+        key = _get_var_name(value, n=2)
 
     # Search for closest Logger
     for frame, *_ in inspect.stack():
