@@ -1,6 +1,9 @@
+import pytest
+
 from declog import log
 from declog.logger import BaseLogger, mixins
 from declog.database import BaseDatabase
+from declog.exceptions import ParentLoggerNotFoundError
 
 
 def test_log_in_nested_function():
@@ -32,6 +35,14 @@ def test_log_with_key():
     my_function()
 
     assert MyLogger.db == {"my_function": {"key": "value", "result": None}}
+
+
+def test_log_without_parent_logger():
+    def my_function():
+        log("value", "key")
+
+    with pytest.raises(ParentLoggerNotFoundError):
+        my_function()
 
 
 def test_log_without_key():

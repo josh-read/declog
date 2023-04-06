@@ -1,7 +1,8 @@
 import inspect
-
-from declog.utils import _get_var_name
 from typing import Any
+
+from declog.exceptions import ParentLoggerNotFoundError
+from declog.utils import _get_var_name
 
 
 class logged_property(property):
@@ -38,4 +39,4 @@ def log(value: Any, key: str = None):
             logger.log(key, value)
             break
     else:
-        raise SyntaxError("No logger found in the call stack.")
+        raise ParentLoggerNotFoundError("No logger found in the call stack.")
