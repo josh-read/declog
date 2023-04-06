@@ -56,30 +56,25 @@ def test_duplicate_entries(logger):
     assert logger.db == {"my_function": {"x": 2, "result": 2}}
 
 
-def test_set_method():
-    class MyLogger(BaseLogger, FunctionNameMixin):
-        db = BaseDatabase()
-        unique_keys = ["function_name", "number"]
-
-    @MyLogger
+def test_set_method(logger):
+    @logger
     def my_func_1(number):
-        return number
+        pass
 
-    @MyLogger.set(number=42)
+    @logger.set(number=42)
     def my_func_2():
         pass
 
-    @MyLogger
+    @logger
     def my_func_3(number):
-        return {"hello": "world"}
+        pass
 
-    my_func_1(2)
-    my_func_1(3)
+    my_func_1(0)
     my_func_2()
-    my_func_3(None)
+    my_func_3(0)
 
-    assert MyLogger.db.data == {
-        "my_func_1": {2: {"result": 2}, 3: {"result": 3}},
-        "my_func_2": {42: {"result": None}},
-        "my_func_3": {None: {"result": {"hello": "world"}}},
+    assert logger.db.data == {
+        "my_func_1": {"number": 0, "result": None},
+        "my_func_2": {"number": 42, "result": None},
+        "my_func_3": {"number": 0, "result": None},
     }
