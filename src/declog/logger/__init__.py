@@ -71,21 +71,17 @@ class BaseLogger:
         return inner
 
     def _build_arg_dict(self, args: list[Any], kwargs: dict[str, Any]) -> dict:
-        print(args, kwargs)
         positional_args = {
             k: v for k, v in zip(inspect.signature(self._func).parameters, args)
         }
-        print(args, kwargs, positional_args)
         default_args = {
             k: v.default
             for k, v in inspect.signature(self._func).parameters.items()
             if v.default is not inspect.Parameter.empty
         }
-        print(args, kwargs, default_args)
         keyword_args = (
             default_args | kwargs
         )  # update defaults with supplied keyword arguments
-        print(args, kwargs, keyword_args)
         return positional_args | keyword_args
 
     def _build_env_dict(self) -> dict:
