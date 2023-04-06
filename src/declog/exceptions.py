@@ -1,0 +1,2 @@
+class ParentLoggerNotFoundError(Exception):
+    pass
