@@ -9,7 +9,47 @@ class logged_property(property):
     """Marks a property to be logged.
 
     Thin wrapper around a standard property. Used in a logger class when the property is
-    to be logged each time the wrapped function is called."""
+    to be logged each time the wrapped function is called.
+
+    Example:
+        >>> from declog.logger import BaseLogger
+        >>> from declog.database import BaseDatabase
+        ...
+        >>> class MyLogger(BaseLogger):
+        ...     db = BaseDatabase()
+        ...     unique_keys = ['function_name', 'counter']
+        ...
+        ...     def __init__(self, func):
+        ...         super().__init__(func)
+        ...         self._counter = 0
+        ...
+        ...     @logged_property
+        ...     def function_name(self):
+        ...         return self._func.__name__
+        ...
+        ...     @logged_property
+        ...     def counter(self):
+        ...         n = self._counter
+        ...         self._counter += 1
+        ...         return n
+        ...
+        ...     @logged_property
+        ...     def foo(self):
+        ...         return 'bar'
+        ...
+        >>> @MyLogger
+        ... def my_function():
+        ...     pass
+        ...
+        >>> my_function()
+        >>> my_function()
+        >>> my_function()
+        >>> MyLogger.db
+        {'my_function': \
+{0: {'foo': 'bar', 'result': None}, \
+1: {'foo': 'bar', 'result': None}, \
+2: {'foo': 'bar', 'result': None}}}
+    """
 
 
 def log(value: Any, key: str = None):
